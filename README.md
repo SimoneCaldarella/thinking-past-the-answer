@@ -38,7 +38,7 @@ Some models require recent `transformers`, `vllm`, CUDA, and enough GPU memory. 
 Print the registered models and benchmarks:
 
 ```bash
-python eval.py --show_models_and_benchmarks
+python eval.py --show_models_and_benchmarks --model NONE --benchmark NONE
 ```
 
 Registered model names include:
@@ -49,7 +49,7 @@ Registered model names include:
 - `qwen2_5vl`
 - `qwen3`
 - `qwen3_5`
-- `qwen3vl`
+- `vl_rethinker`
 - `r1_vl`
 - `thinklite_vl`
 - `vl_rethinker`
@@ -74,7 +74,7 @@ This command generates `generations.jsonl`, evaluates it, and writes `results.js
 
 ```bash
 python eval.py \
-  --model qwen3vl \
+  --model vl_rethinker \
   --benchmark mathvista \
   --backend vllm \
   --output ./output \
@@ -98,7 +98,7 @@ Then add answer extraction to the evaluation command:
 
 ```bash
 python eval.py \
-  --model qwen3vl \
+  --model vl_rethinker \
   --benchmark mathvista \
   --backend vllm \
   --output ./output \
@@ -118,8 +118,8 @@ If generation was run without LLM extraction, extract answers from an existing `
 
 ```bash
 python scripts/python/extract_answers_jsonl.py \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
-  --output_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
+  --output_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
   --answer_extraction_model Qwen/Qwen3-4B-Instruct-2507 \
   --llm_endpoint localhost:8000 \
   --api_mode chat
@@ -130,7 +130,7 @@ Then re-evaluate the extracted file:
 ```bash
 python evaluate_answers_standalone.py \
   --benchmark mathvista \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/generations.jsonl \
   --parsed_responses_filename parsed_responses_only.jsonl
 ```
 
@@ -140,7 +140,7 @@ Run `difficulty.py` after `eval.py` has produced the source `generations.jsonl`.
 
 ```bash
 python difficulty.py \
-  --model qwen3vl \
+  --model vl_rethinker \
   --benchmark mathvista \
   --backend vllm \
   --output ./output \
@@ -162,8 +162,8 @@ Extract answers for `difficulty_generations.jsonl`:
 
 ```bash
 python scripts/python/extract_answers_jsonl.py \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
-  --output_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
+  --output_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
   --answer_extraction_model Qwen/Qwen3-4B-Instruct-2507 \
   --llm_endpoint localhost:8000 \
   --api_mode chat
@@ -174,7 +174,7 @@ Then evaluate with difficulty metadata:
 ```bash
 python evaluate_answers_standalone.py \
   --benchmark mathvista \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
   --parsed_responses_filename parsed_responses_difficulty_utterance_granularity_1.jsonl \
   --include_difficulty
 ```
@@ -196,9 +196,9 @@ python baseline/categorize_overthinking_from_last_true.py \
   --backend openai \
   --openai_base_url http://localhost:8000/v1 \
   --openai_api_key dummy \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
-  --parsed_responses_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/parsed_responses_difficulty_utterance_granularity_1.jsonl \
-  --output_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy.jsonl \
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/difficulty_generations.jsonl \
+  --parsed_responses_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/parsed_responses_difficulty_utterance_granularity_1.jsonl \
+  --output_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy.jsonl \
   --prompt_variant taxonomy \
   --max_tokens 4096
 ```
@@ -213,9 +213,9 @@ Summarize taxonomy labels:
 
 ```bash
 python baseline/summarize_overthinking_categories.py \
-  --input_file ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy.jsonl \
-  --output_json ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy_summary.json \
-  --output_csv ./output/main/qwen3vl/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy_rows.csv
+  --input_file ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy.jsonl \
+  --output_json ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy_summary.json \
+  --output_csv ./output/main/vl_rethinker/mathvista/seed_42/budget_prompt_Final_Answer/failure_taxonomy_rows.csv
 ```
 
 ## Notes
