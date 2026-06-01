@@ -6,12 +6,12 @@
   <meta name="description" content="Thinking Past the Answer: Evaluating Harmful Overthinking in Large Reasoning Models.">
   <meta property="og:title" content="Thinking Past the Answer" />
   <meta property="og:description" content="Evaluating harmful overthinking in large reasoning models." />
-  <meta property="og:image" content="assets/teaser.pdf" />
+  <meta property="og:image" content="assets/teaser.svg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:title" content="Thinking Past the Answer">
   <meta name="twitter:description" content="Evaluating harmful overthinking in large reasoning models.">
-  <meta name="twitter:image" content="assets/teaser.pdf">
+  <meta name="twitter:image" content="assets/teaser.svg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="keywords" content="large reasoning models, overthinking, test-time scaling, multimodal reasoning, reasoning sufficiency">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,19 +55,19 @@
 
             <div class="publication-links">
               <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                <a href="assets/thinking-past-the-answer.pdf" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fas fa-file-pdf"></i></span>
                   <span>Paper</span>
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://github.com/simonecaldarella/TPtA" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <a href="https://github.com/simonecaldarella/thinking-past-the-answer" target="_blank" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
                 </a>
               </span>
               <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                <a class="external-link button is-normale is-rounded">
                   <span class="icon"><i class="ai ai-arxiv"></i></span>
                   <span>arXiv</span>
                 </a>
@@ -81,16 +81,14 @@
             </div>
 
             <div class="figure-card mt-5">
-              <img src="assets/teaser.pdf" alt="Performance averaged on LRMs. 
+              <img src="assets/teaser.svg" width=900 alt="Performance averaged on LRMs. 
     Actual Length is the model’s default behavior, No-CoT disables intermediate reasoning, and Instruct Model is the pre-reasoning instruction-tuned model.
     Finally, Optimal Length stops at the first correct prefix. 
     The gap between Actual Length and Optimal Length shows that models often reason past correctness, making additional reasoning harmful.">
             </div>
 
             <h2 class="subtitle has-text-justified">
-              Large Reasoning Models often reach a correct answer before they stop reasoning. This project studies what happens after correctness: does more reasoning refine the solution, or can it destabilize an already-correct trajectory?
-            </h2>
-          </div>
+              Large Reasoning Models (LRMs) often reach a correct answer before they stop reasoning. This project studies what happens after correctness under the lens of overthinking, by distinguishing between verbose and harmful overthinking. While the former has been largely studied as an efficiency problem, the latter is currently underexplored. As shows in the above figure, learning to stop at the right time would greatly improve performance of LRMs.
         </div>
       </div>
     </div>
@@ -116,8 +114,8 @@
       <div class="hero-body">
         <h2 class="title is-3">Reasoning sufficiency as difficulty</h2>
         <div class="figure-card">
-          <img src="static/images/method_overview.png" alt="Placeholder method overview figure.">
-        </div>
+          <center><img src="assets/second.png" alt="Algorithm."></center>
+          </div>
         <h2 class="subtitle has-text-justified">
           We evaluate a reasoning trace prefix by prefix. For each partial trace, the model is forced to provide an answer. The first prefix that yields the correct answer defines the empirical sufficient reasoning budget for that model and instance. Any reasoning beyond that point is overthinking; if the final answer remains correct, it is verbose, and if the final answer becomes incorrect, it is harmful.
         </h2>
@@ -128,14 +126,14 @@
     </div>
   </section>
 
-  <section class="section hero is-light" id="results">
+  <!-- <section class="section hero is-light" id="results">
     <div class="container is-max-desktop">
       <div class="hero-body">
         <h2 class="title is-3">Main findings</h2>
-        <div class="figure-card">
-          <img src="static/images/results_summary.png" alt="Placeholder results figure comparing actual length and optimal length.">
-        </div>
-        <h2 class="subtitle has-text-justified">
+        <!-- <div class="figure-card">
+          <img src="assets/optimal_vs_actual_length_utterances_grid.svg" alt="Optimal vs. Actual Length">
+        </div> -->
+        <!-- <h2 class="subtitle has-text-justified">
           Many benchmark instances require surprisingly little explicit reasoning. Across multimodal benchmarks, the oracle strategy that stops at the first correct prefix substantially improves accuracy over default generation. The gap shows that models often reason past correctness: additional steps are not merely redundant, they can change a correct trajectory into an incorrect final answer.
         </h2>
         <div class="content">
@@ -146,14 +144,56 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
+  <section class="section hero is-light" id="results">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Main findings</h2>
+
+      <div class="content has-text-justified">
+        <ul class="takeaway-list">
+          <li>
+            <strong>Reasoning length is a poor proxy for difficulty.</strong>
+            Large Reasoning Models often reach the correct answer early, then continue generating
+            long traces that are not required for correctness.
+          </li>
+          <li>
+            <strong>Models frequently reason past correct intermediate states.</strong>
+            Stopping at the first correct prefix can substantially outperform default full-length
+            reasoning, showing that additional reasoning can be harmful rather than merely redundant.
+          </li>
+          <li>
+            <strong>Free-form generation exposes harmful overthinking more sharply.</strong>
+            Without a fixed answer set, unconstrained reasoning is more likely to drift away from
+            an already-correct answer.
+          </li>
+          <li>
+            <strong>Reasoning trajectories are non-monotonic.</strong>
+            After first reaching correctness, the probability of staying correct drops as models
+            continue reasoning.
+          </li>
+          <li>
+            <strong>Efficiency methods reduce verbosity, but not necessarily harmful overthinking.</strong>
+            Shorter traces remove wasted computation, yet they do not reliably prevent correctness
+            deviations.
+          </li>
+          <li>
+            <strong>Harmful overthinking also appears in language-only reasoning.</strong>
+            The phenomenon is not only caused by visual drift; similar instability emerges on
+            math-heavy and knowledge-heavy language benchmarks.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
   <section class="section" id="failure-modes">
     <div class="container is-max-desktop">
       <div class="hero-body">
         <h2 class="title is-3">Why does reasoning become harmful?</h2>
         <div class="figure-card">
-          <img src="static/images/failure_modes.png" alt="Placeholder failure modes figure.">
+          <img src="assets/image.png" alt="Failure modes figure.">
         </div>
         <h2 class="subtitle has-text-justified">
           In harmful trajectories, the model first reaches a correct answer and then changes it. We analyze the segment from the last correct prefix to the final trace and categorize deviations into visual errors, calculation errors, and logical errors. The dominant causes are logical drift and visual reinterpretation rather than arithmetic mistakes.
@@ -165,7 +205,7 @@
   <section class="section hero is-light" id="bibtex">
     <div class="container is-max-desktop">
       <h2 class="title is-3">BibTeX</h2>
-      <pre><code>@misc{caldarella2026thinkingpastanswer,
+      <pre><code>@misc{caldarella2026overthinking,
   title        = {Thinking Past the Answer: Evaluating Harmful Overthinking in Large Reasoning Models},
   author       = {Caldarella, Simone and Talon, Davide and Ricci, Elisa and Aljundi, Rahaf and Mancini, Massimiliano},
   year         = {2026},
@@ -180,7 +220,7 @@
         <div class="column is-8">
           <div class="content has-text-centered">
             <p>
-              This page follows the style of lightweight academic project pages built with Bulma. Replace the placeholder images and empty links with final camera-ready assets.
+              Made with <3 by Simone
             </p>
           </div>
         </div>
