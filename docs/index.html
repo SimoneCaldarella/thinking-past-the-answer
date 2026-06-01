@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Thinking Past the Answer: Evaluating Harmful Overthinking in Large Reasoning Models.">
+  <meta property="og:title" content="Thinking Past the Answer" />
+  <meta property="og:description" content="Evaluating harmful overthinking in large reasoning models." />
+  <meta property="og:image" content="static/images/teaser.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:title" content="Thinking Past the Answer">
+  <meta name="twitter:description" content="Evaluating harmful overthinking in large reasoning models.">
+  <meta name="twitter:image" content="static/images/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="keywords" content="large reasoning models, overthinking, test-time scaling, multimodal reasoning, reasoning sufficiency">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Simone Caldarella, Davide Talon, Elisa Ricci, Rahaf Aljundi, Massimiliano Mancini">
+
+  <title>Thinking Past the Answer</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+
+  <section class="hero is-gradient">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Thinking Past the Answer:<br>Evaluating Harmful Overthinking in Large Reasoning Models</h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><a href="#" target="_blank">Simone Caldarella</a><sup>1,*</sup></span>
+              <span class="author-block">Davide Talon<sup>3</sup></span>
+              <span class="author-block">Elisa Ricci<sup>1,3</sup></span>
+              <span class="author-block">Rahaf Aljundi<sup>2</sup></span>
+              <span class="author-block">Massimiliano Mancini<sup>1</sup></span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>University of Trento</span>
+              <span class="author-block"><sup>2</sup>Toyota Motor Europe</span>
+              <span class="author-block"><sup>3</sup>Fondazione Bruno Kessler</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">NeurIPS 2026 Submission</span>
+            </div>
+
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/simonecaldarella/TPtA" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#bibtex" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-quote-left"></i></span>
+                  <span>BibTeX</span>
+                </a>
+              </span>
+            </div>
+
+            <div class="figure-card mt-5">
+              <img src="static/images/teaser.png" alt="Teaser placeholder showing a reasoning trajectory that reaches correctness and then drifts.">
+            </div>
+
+            <h2 class="subtitle has-text-justified">
+              Large Reasoning Models often reach a correct answer before they stop reasoning. This project studies what happens after correctness: does more reasoning refine the solution, or can it destabilize an already-correct trajectory?
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Large Reasoning Models improve performance by producing explicit intermediate reasoning traces with additional test-time compute. However, longer reasoning is not always beneficial. We ask whether a model that has already reached the correct answer continues to refine that answer or instead drifts away from it. To study this, we introduce a prefix-level trajectory evaluation protocol grounded in reasoning sufficiency: the minimum reasoning budget required for a model to first generate the correct answer. This separates verbose overthinking, where additional reasoning is redundant but harmless, from harmful overthinking, where continued reasoning destabilizes an already-correct trajectory. Across multimodal and language-only benchmarks, stopping at the first correct prefix improves accuracy over default reasoning, revealing that current models are limited not only by their ability to reason, but also by their inability to stop at the right time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="method">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <h2 class="title is-3">Reasoning sufficiency as difficulty</h2>
+        <div class="figure-card">
+          <img src="static/images/method_overview.png" alt="Placeholder method overview figure.">
+        </div>
+        <h2 class="subtitle has-text-justified">
+          We evaluate a reasoning trace prefix by prefix. For each partial trace, the model is forced to provide an answer. The first prefix that yields the correct answer defines the empirical sufficient reasoning budget for that model and instance. Any reasoning beyond that point is overthinking; if the final answer remains correct, it is verbose, and if the final answer becomes incorrect, it is harmful.
+        </h2>
+        <div class="takeaway">
+          <strong>Key idea.</strong> Difficulty should be tied to the minimum compute needed to first reach correctness, not to the total length of a model-generated chain of thought.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="results">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <h2 class="title is-3">Main findings</h2>
+        <div class="figure-card">
+          <img src="static/images/results_summary.png" alt="Placeholder results figure comparing actual length and optimal length.">
+        </div>
+        <h2 class="subtitle has-text-justified">
+          Many benchmark instances require surprisingly little explicit reasoning. Across multimodal benchmarks, the oracle strategy that stops at the first correct prefix substantially improves accuracy over default generation. The gap shows that models often reason past correctness: additional steps are not merely redundant, they can change a correct trajectory into an incorrect final answer.
+        </h2>
+        <div class="content">
+          <span class="tag-pill">Prefix-level evaluation</span>
+          <span class="tag-pill">Verbose vs. harmful overthinking</span>
+          <span class="tag-pill">Optimal stopping gap</span>
+          <span class="tag-pill">Multimodal + language-only</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="failure-modes">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <h2 class="title is-3">Why does reasoning become harmful?</h2>
+        <div class="figure-card">
+          <img src="static/images/failure_modes.png" alt="Placeholder failure modes figure.">
+        </div>
+        <h2 class="subtitle has-text-justified">
+          In harmful trajectories, the model first reaches a correct answer and then changes it. We analyze the segment from the last correct prefix to the final trace and categorize deviations into visual errors, calculation errors, and logical errors. The dominant causes are logical drift and visual reinterpretation rather than arithmetic mistakes.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="bibtex">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">BibTeX</h2>
+      <pre><code>@misc{caldarella2026thinkingpastanswer,
+  title        = {Thinking Past the Answer: Evaluating Harmful Overthinking in Large Reasoning Models},
+  author       = {Caldarella, Simone and Talon, Davide and Ricci, Elisa and Aljundi, Rahaf and Mancini, Massimiliano},
+  year         = {2026},
+  note         = {Preprint}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered">
+            <p>
+              This page follows the style of lightweight academic project pages built with Bulma. Replace the placeholder images and empty links with final camera-ready assets.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
